@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.homepage= "http://github.com/soccer022483/tags"
   s.summary = "A Ruby object with the behavior of a list of tags."
   s.description = "A Ruby object with the behavior of a list of tags."
+  s.rubyforge_project = "tags"
   s.post_install_message = "Thanks for installing Tags!"
   s.files = `git ls-files`.split("\n")
   s.test_files= `git ls-files -- {test,spec,features}/*`.split("\n")
