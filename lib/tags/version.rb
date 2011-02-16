@@ -1,3 +1,3 @@
-module Tags
-  VERSION = "0.0.1"
+class Tags
+  VERSION = "1.0.0"
 end
