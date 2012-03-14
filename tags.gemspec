@@ -16,6 +16,4 @@ Gem::Specification.new do |spec|
   spec.version       = Tags::VERSION
 
   spec.add_development_dependency "rspec", ">= 2.8"
-
-  spec.add_dependency "activesupport", ">= 3"
 end

@@ -2,68 +2,86 @@ require 'spec_helper'
 
 describe Tags do
 
-  describe "#to_s" do
-    it { Tags.new("one two").to_s.should eq("one two") }
-    it { Tags.new.to_s.should eq("") }
-  end
+  describe "instance methods" do
+    subject { described_class.new @arg }
 
-  describe "#to_a" do
-    it { Tags.new("one two").to_a.should eq(["one", "two"]) }
-    it { Tags.new.to_a.should eq([]) }
-  end
+    describe "#to_s" do
+      context "with a blank string" do
+        before { @arg = "" }
+        its(:to_s) { should eq("") }
+      end
 
-  describe "#to_set" do
-    it { Tags.new("one two").to_set.should eq(Set.new(["one", "two"])) }
-    it { Tags.new.to_set.should eq(Set.new) }
-  end
+      context "with tags separated by commas or whitespace" do
+        before { @arg = "barley, hops water, yeast" }
+        its(:to_s) { should eq("barley, hops, water, yeast") }
+      end
 
-  describe "#-" do
-    context "with a Tags" do
-      it { (Tags.new - Tags.new("one")).should eq(Tags.new) }
-      it { (Tags.new("one") - Tags.new("one")).should eq(Tags.new) }
-      it { (Tags.new("one two") - Tags.new("one")).should eq(Tags.new("two")) }
-      it { (Tags.new("one two") - Tags.new("three")).should eq(Tags.new("one two")) }
-      it { (Tags.new("one two three") - Tags.new("one three")).should eq(Tags.new("two")) }
+      context "given nil" do
+        before { @arg = nil }
+        its(:to_s) { should eq("") }
+      end
     end
 
-    it "argument must be of the Tags type" do
-      lambda do
-        Tags.new("one") - ["one"]
-      end.should raise_error(ArgumentError, "must be a Tags object")
-    end
-  end
+    describe "#to_a" do
+      context "with a blank string" do
+        before { @arg = "" }
+        its(:to_a) { should eq([]) }
+      end
 
-  describe "#+" do
-    context "with a Tags" do
-      it { (Tags.new + Tags.new("one")).should eq(Tags.new("one")) }
+      context "with tags separated by commas or whitespace" do
+        before { @arg = "barley, hops water, yeast" }
+        its(:to_a) { should eq(%w[barley hops water yeast]) }
+      end
+
+      context "with duplicate tags" do
+        before { @arg = "barley, hops, barley" }
+        it "eliminates duplicates" do
+          subject.to_a.should eq(%w[barley hops])
+        end
+      end
+
+      context "with mixed-case tags" do
+        before { @arg = "Barley, hOps, YEAST" }
+        it "lowercases the tags" do
+          subject.to_a.should eq(%w[barley hops yeast])
+        end
+      end
+
+      context "with duplicate mixed case tags" do
+        before { @arg = "barley, hops, BarlEy" }
+        it "eliminates duplicates ignoring case" do
+          subject.to_a.should eq(%w[barley hops])
+        end
+      end
+    end
+
+    describe "#+" do
+      it "combines tags into one" do
+        @arg = "foo, bar"
+        result = subject + described_class.new("baz, buz")
+        result.should eq(described_class.new("foo, bar, baz, buz"))
+      end
+
+      # more examples
+      it { (Tags.new(nil) + Tags.new("one")).should eq(Tags.new("one")) }
       it { (Tags.new("one") + Tags.new("one")).should eq(Tags.new("one")) }
-      it { (Tags.new("one two") + Tags.new).should eq(Tags.new("one two")) }
+      it { (Tags.new("one two") + Tags.new(nil)).should eq(Tags.new("one two")) }
       it { (Tags.new("one two") + Tags.new("three")).should eq(Tags.new("one two three")) }
     end
 
-    it "argument must be of the Tags type" do
-      lambda do
-        Tags.new("one") + ["one"]
-      end.should raise_error(ArgumentError, "must be a Tags object")
-    end
-  end
+    describe "#-" do
+      it "returns the difference of the tags" do
+        @arg = "foo, buz"
+        result = subject - described_class.new("baz, buz")
+        result.should eq(described_class.new("foo"))
+      end
 
-  describe "#==" do
-    context "with a Tags containing the same items" do
-      it { Tags.new("one two").should eq(Tags.new("one two")) }
-      it { Tags.new("one two three").should eq(Tags.new("one two three")) }
-      it { Tags.new("one two").should eq(Tags.new("one two")) }
-      it { Tags.new.should eq(Tags.new) }
-
-      it { Tags.new("one two").should_not eq(Tags.new("one two three")) }
-      it { Tags.new.should_not eq(Tags.new("one two three")) }
-    end
-
-    context "with a non-Tags" do
-      it { Tags.new("one").should_not eq("str") }
-      it { Tags.new("one").should_not eq(["str"]) }
-      it { Tags.new("one").should_not eq(Set.new(["str"])) }
-      it { Tags.new.should_not eq(nil) }
+      # more examples
+      it { (Tags.new(nil) - Tags.new("one")).should eq(Tags.new(nil)) }
+      it { (Tags.new("one") - Tags.new("one")).should eq(Tags.new(nil)) }
+      it { (Tags.new("one two") - Tags.new("one")).should eq(Tags.new("two")) }
+      it { (Tags.new("one two") - Tags.new("three")).should eq(Tags.new("one two")) }
+      it { (Tags.new("one two three") - Tags.new("one three")).should eq(Tags.new("two")) }
     end
   end
 

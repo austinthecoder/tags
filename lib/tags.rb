@@ -1,48 +1,35 @@
-require 'set'
-require 'active_support'
+require 'forwardable'
 
 class Tags
+  extend Forwardable
+  include Enumerable
 
-  include Comparable
+  def_delegators :tags, :empty?, :to_ary, :to_a, :each, :size
 
-  ##################################################
-
-  def initialize(str_or_ary = nil)
-    ary = str_or_ary.is_a?(Array) ? str_or_ary : str_or_ary.to_s.split(' ')
-    @tags_set = Set.new(ary)
+  def initialize(tags)
+    @tags = tags.is_a?(Array) ? tags : tags.to_s.split(/\W+/)
+    @tags.each &:downcase!
+    @tags.uniq!
   end
 
   def to_s
-    to_a.join(' ')
-  end
-
-  def to_a
-    tags_set.to_a
-  end
-
-  def to_set
-    tags_set.dup
-  end
-
-  def -(other)
-    raise ArgumentError, "must be a #{self.class} object" unless other.is_a?(self.class)
-    ary_diff = (tags_set - other.to_set).to_a
-    self.class.new(ary_diff)
+    tags.join ', '
   end
 
   def +(other)
-    raise ArgumentError, "must be a #{self.class} object" unless other.is_a?(self.class)
-    ary_add = (tags_set + other.to_set).to_a
-    self.class.new(ary_add)
+    self.class.new(to_a + other.to_a)
   end
 
-  def <=>(other)
-    tags_set <=> other.to_set
+  def -(other)
+    self.class.new(to_a - other.to_a)
   end
 
-  ##################################################
-  private
+  def ==(other)
+    to_a == Array(other)
+  end
 
-  attr_reader :tags_set
+private
+
+  attr_reader :tags
 
 end
