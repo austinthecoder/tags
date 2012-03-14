@@ -2,31 +2,22 @@
 
 A Ruby object that acts like a set of tags.
 
-## Current API
-
-### Removing tags
+## Examples
 
 ``` ruby
-Tags.new("one two three") - Tags.new("one three")
+tags = Tags.new("one, two, three")
+
+tags - Tags.new("one, three")
 # Tags.new("two")
-```
 
-### Adding tags
+tags + Tags.new("three, four, five")
+# Tags.new("one, two, three, four, five")
 
-``` ruby
-Tags.new("one two three") - Tags.new("three four five")
-# Tags.new("one two three four five")
-```
+tags.to_s
+# "one, two, three"
 
-### Conversions
-
-``` ruby
-Tags.new("one two three").to_s
-# "one two three"
-
-Tags.new("one two three").to_a
+tags.to_a
 # ["one", "two", "three"]
 
-Tags.new("one two three").to_set
-# #<Set: {"one", "two", "three"}>
+# see the tests for more examples
 ```
