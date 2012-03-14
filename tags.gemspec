@@ -1,24 +1,21 @@
 # -*- encoding: utf-8 -*-
-$:.push File.expand_path("../lib", __FILE__)
-require "tags/version"
+require File.expand_path('../lib/tags/version', __FILE__)
 
-Gem::Specification.new do |s|
-  s.name= "tags"
-  s.version = Tags::VERSION
-  s.platform= Gem::Platform::RUBY
-  s.authors = ["Austin Schneider"]
-  s.email = ["soccer022483@gmail.com"]
-  s.homepage= "http://github.com/soccer022483/tags"
-  s.summary = "A Ruby object with the behavior of a list of tags."
-  s.description = "A Ruby object with the behavior of a list of tags."
-  s.rubyforge_project = "tags"
-  s.post_install_message = "Thanks for installing Tags!"
-  s.files = `git ls-files`.split("\n")
-  s.test_files= `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.executables = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
-  s.require_paths = ["lib"]
+Gem::Specification.new do |spec|
+  spec.authors       = ["Austin Schneider"]
+  spec.email         = ["austinthecoder@gmail.com"]
+  spec.description   = "A Ruby object with the behavior of a list of tags."
+  spec.summary       = "A Ruby object with the behavior of a list of tags."
+  spec.homepage      = "https://github.com/austinthecoder/tags"
 
-  s.add_development_dependency "rspec", "~> 2"
+  spec.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
+  spec.files         = `git ls-files`.split("\n")
+  spec.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
+  spec.name          = "tags"
+  spec.require_paths = ["lib"]
+  spec.version       = Tags::VERSION
 
-  s.add_dependency "activesupport", "~> 3"
+  spec.add_development_dependency "rspec", ">= 2.8"
+
+  spec.add_dependency "activesupport", ">= 3"
 end
