@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Tags : A Ruby object with the behavior of a list of tags." />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Tags</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/austinthecoder/tags">Fork Me on GitHub</a>
+
+          <h1 id="project_title">Tags</h1>
+          <h2 id="project_tagline">A Ruby object with the behavior of a list of tags.</h2>
+
+          <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/austinthecoder/tags/zipball/master">Download this project as a .zip file</a>
+            <a class="tar_download_link" href="https://github.com/austinthecoder/tags/tarball/master">Download this project as a tar.gz file</a>
+          </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>Tags</h1>
+
+<p>A Ruby object that acts like a set of tags.</p>
+
+<h2>Examples</h2>
+
+<div class="highlight">
+<pre><span class="n">tags</span> <span class="o">=</span> <span class="no">Tags</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">"one, two, three"</span><span class="p">)</span>
+
+<span class="n">tags</span> <span class="o">-</span> <span class="no">Tags</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">"one, three"</span><span class="p">)</span>
+<span class="c1"># Tags.new("two")</span>
+
+<span class="n">tags</span> <span class="o">+</span> <span class="no">Tags</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">"three, four, five"</span><span class="p">)</span>
+<span class="c1"># Tags.new("one, two, three, four, five")</span>
+
+<span class="n">tags</span><span class="o">.</span><span class="n">to_s</span>
+<span class="c1"># "one, two, three"</span>
+
+<span class="n">tags</span><span class="o">.</span><span class="n">to_a</span>
+<span class="c1"># ["one", "two", "three"]</span>
+
+<span class="c1"># see the tests for more examples</span>
+</pre>
+</div>
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Tags maintained by <a href="https://github.com/austinthecoder">austinthecoder</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
